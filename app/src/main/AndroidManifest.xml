@@ -34,6 +34,12 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".service.LocationService"
+            android:foregroundServiceType="location"
+            android:stopWithTask="false" />
+
     </application>
 
 </manifest>

@@ -38,5 +38,4 @@ object MyService : ServiceConnection {
 
     fun getLongitude(): Double = service?.mLongitude ?: 0.0
 
-    fun getAccuracy(): Float = service?.accuracy ?: 0f
 }

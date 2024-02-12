@@ -103,6 +103,7 @@ class SplashActivity : AppCompatActivity() {
         } else {
             // 33 이상
             listOf(
+                Manifest.permission.FOREGROUND_SERVICE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.POST_NOTIFICATIONS

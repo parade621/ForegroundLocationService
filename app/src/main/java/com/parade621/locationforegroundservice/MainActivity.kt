@@ -10,9 +10,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.lifecycleScope
 import com.parade621.locationforegroundservice.databinding.ActivityMainBinding
 import com.parade621.locationforegroundservice.service.LocationService
 import com.parade621.locationforegroundservice.service.MyService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -25,17 +29,17 @@ class MainActivity : AppCompatActivity() {
 
         startLocationService()
 
+        binding.latitudeText.text = "Latitude: ${MyService.getLatitude()}"
+        binding.longitudeText.text = "Longitude: ${MyService.getLongitude()}"
     }
 
     private fun startLocationService() {
         if (MyService.isBound) {
-            // 서비스가 이미 바인딩되어 있다면 해제
             unbindService(MyService)
             MyService.unbindService()
         }
 
         val serviceIntent = Intent(applicationContext, LocationService::class.java)
         bindService(serviceIntent, MyService, BIND_AUTO_CREATE)
-        MyService.bindService()
     }
 }

@@ -26,12 +26,13 @@ import com.google.android.gms.location.LocationServices
 import com.parade621.locationforegroundservice.MainActivity
 import com.parade621.locationforegroundservice.R
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class LocationService : LifecycleService() {
 
     private val localBinder = LocalBinder()
+
     private var isServiceRunning = false
-        private set
 
     private val googleLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this)
@@ -71,8 +72,8 @@ class LocationService : LifecycleService() {
 
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
-
         isServiceRunning = true
+        MyService.bindService()
         handleBind()
         return localBinder
     }
@@ -164,10 +165,13 @@ class LocationService : LifecycleService() {
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             if (locationResult.locations[0] != null) {
+                Timber.e("확인: ${locationResult.locations[0].latitude} / ${locationResult.locations[0].longitude}")
                 mLatitude = locationResult.locations[0].latitude
                 mLongitude = locationResult.locations[0].longitude
                 accuracy = locationResult.locations[0].accuracy
             }
+
+            Timber.e("확인: $mLatitude / $mLongitude")
 
             actionFunction()
         }
