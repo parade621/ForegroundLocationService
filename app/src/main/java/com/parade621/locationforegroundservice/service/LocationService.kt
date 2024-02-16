@@ -40,7 +40,6 @@ class LocationService : LifecycleService() {
 
     var mLatitude: Double = 0.0
         private set
-
     var mLongitude: Double = 0.0
         private set
     var accuracy: Float = 0f
