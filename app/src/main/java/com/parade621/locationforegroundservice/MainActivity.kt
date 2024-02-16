@@ -33,4 +33,8 @@ class MainActivity : AppCompatActivity() {
             binding.longitudeText.text = "Longitude: ${MyService.getLongitude()}"
         }
     }
+
+
+    // google map 하나 추가해볼까?
+    // 대충 본인 위치 파악해서 점으로 띄워주는거
 }
