@@ -30,21 +30,27 @@ import timber.log.Timber
 
 class LocationService : LifecycleService() {
 
+    // 서비스 바인딩을 위한 Binder 클래스
     private val localBinder = LocalBinder()
 
+    // 서비스가 실행중인지 확인하는 변수
     private var isServiceRunning = false
 
+    // 구글 위치 서비스를 사용하기 위한 변수
     private val googleLocation by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
 
-    var mLatitude: Double = 0.0
+    // 위도, 경도, 정확도를 저장하기 위한 변수들
+    var latitude: Double = 0.0
         private set
-    var mLongitude: Double = 0.0
+    var longitude: Double = 0.0
         private set
     var accuracy: Float = 0f
         private set
 
+    // 권한이 허용되어 있는지 확인하는 함수
+    // 논리적으로 반드시 권한이 부여되어 있다면 굳이 작성할 필요는 없지만, 샘플코드라서 작성하였습니다.
     private fun checkLocationPermissions(): Boolean {
         return !(ActivityCompat.checkSelfPermission(
             this,
@@ -56,6 +62,8 @@ class LocationService : LifecycleService() {
         ) != PackageManager.PERMISSION_GRANTED)
     }
 
+    // 서비스를 시작하는데 사용되며, 바인드와는 직접적인 연관이 없습니다.
+    // startService 또는 startForegroundService로 서비스를 시작할 때 호출됩니다.
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         if (checkLocationPermissions()) {
@@ -66,9 +74,15 @@ class LocationService : LifecycleService() {
                 locationUpdates()
             }
         }
+        // START_STICKY, START_NOT_STICKY, START_REDELIVER_INTENT와 같은 반환 값은
+        // 서비스가 시스템에 의해 종료된 후 재시작되는 방식을 제어합니다.
         return START_STICKY
     }
 
+    // bindService를 통해 실행됩니다.
+    // 바인딩은 클라이언트와 서비스 사이에 상호 작용할 수 있는 통신 채널을 제공합니다.
+    // 바인딩된 서비스는 바인딩된 컴포넌트가 존재하는 동안에만 실행됩니다.
+    // onBind는 서비스가 시작되었을 때가 아니라, 서비스에 바인딩되었을 때 호출되는 것입니다.
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
         isServiceRunning = true
@@ -77,6 +91,12 @@ class LocationService : LifecycleService() {
         return localBinder
     }
 
+
+    //    override fun onRebind(intent: Intent?) {
+    //        handleBind()
+    //    }
+
+    // 바인드 함수에서 호출되는 커스텀 함수로, Rebound까지 고려하여 별도로 함수로 분리하여 작성하였습니다.
     private fun handleBind() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // API 26 이상은 포그라운드 서비스 시작
@@ -88,7 +108,7 @@ class LocationService : LifecycleService() {
         startForeground(1, createChannel().build())
     }
 
-
+    // 서비스가 언바인드 될 때 호출되는 함수
     override fun onUnbind(intent: Intent?): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             stopSelf()
@@ -98,6 +118,10 @@ class LocationService : LifecycleService() {
         return true
     }
 
+    // 알림 채널을 생성하는 함수
+    // API 26 이상에서는 알림 채널을 생성해야 합니다.
+    // 알림 채널은 ID가 동일한 경우, 굳이 서비스를 재시작할 때 알림을 삭제하고 다시 생성하지 않아도 됩니다.
+    // 동일한 ID의 알림은 업데이트 되는 방식이기 때문입니다.
     private fun createChannel(): NotificationCompat.Builder {
         val notificationIntent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -140,12 +164,13 @@ class LocationService : LifecycleService() {
         return builder
     }
 
+    // 위치 업데이트를 요청하는 함수
     @SuppressLint("MissingPermission")
     private fun locationUpdates() {
         googleLocation.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                mLatitude = location.latitude
-                mLongitude = location.longitude
+                latitude = location.latitude
+                longitude = location.longitude
             }
         }
 
@@ -161,21 +186,24 @@ class LocationService : LifecycleService() {
         )
     }
 
+    // 위치 업데이트를 받는 콜백 함수
+    // 설정된 시간 간격마다 위치 정보를 업데이트 받습니다.
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             if (locationResult.locations[0] != null) {
                 Timber.e("확인: ${locationResult.locations[0].latitude} / ${locationResult.locations[0].longitude}")
-                mLatitude = locationResult.locations[0].latitude
-                mLongitude = locationResult.locations[0].longitude
+                latitude = locationResult.locations[0].latitude
+                longitude = locationResult.locations[0].longitude
                 accuracy = locationResult.locations[0].accuracy
             }
 
-            Timber.e("확인: $mLatitude / $mLongitude")
+            Timber.e("확인: $latitude / $longitude")
 
             actionFunction()
         }
     }
 
+    // 서비스를 종료하는 함수
     override fun onDestroy() {
         super.onDestroy()
         if (isServiceRunning) {
@@ -185,6 +213,7 @@ class LocationService : LifecycleService() {
         }
     }
 
+    //
     internal inner class LocalBinder : Binder() {
         fun getService(): LocationService = this@LocationService
     }
