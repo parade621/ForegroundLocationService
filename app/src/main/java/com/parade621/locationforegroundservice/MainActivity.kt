@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    // 앱이 종료될 때, 서비스를 언바인드합니다.
+    // 백스택의 최하단에 항상 존재하는 액티비티에서만 사용하는 것이 좋습니다.
     override fun onDestroy() {
         super.onDestroy()
         if (MyService.isBound) {
