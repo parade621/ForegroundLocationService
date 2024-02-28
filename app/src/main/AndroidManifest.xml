@@ -32,13 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".BasicActivity"
             android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.LocationService"
             android:foregroundServiceType="location"
-            android:stopWithTask="false" />
+            android:stopWithTask="false"
+            tools:ignore="ForegroundServicePermission" />
 
     </application>
 

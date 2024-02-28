@@ -14,7 +14,7 @@ import com.parade621.locationforegroundservice.service.MyService
  *
  * 기능의 동작 확인을 목적으로, 비동기 처리나 별도의 에러 처리는 하지 않았습니다.
  */
-class MainActivity : AppCompatActivity() {
+class BasicActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
     /**
      * 서비스를 실행하는 함수입니다.
      *
-     * return: 서비스 실행 여부
+     * @return: 서비스 실행 여부
+     *         - true: 서비스 실행 성공
+     *         - false: 서비스 실행 실패
      */
     private fun startLocationService(): Boolean {
         // 서비스를 바인드합니다.
@@ -49,7 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return try {
+            // LocationService에 바인딩하기 위한 Intent를 생성합니다.
+            // 이 Intent는 LocationService 클래스를 명시적으로 지정합니다.
             val serviceIntent = Intent(applicationContext, LocationService::class.java)
+
+            // 생성한 Intent와 serviceConnection 객체(MyService)를 사용하여 LocationService에 바인드합니다.
+            // BIND_AUTO_CREATE 플래그는 서비스가 아직 실행 중이 아니라면 자동으로 생성하도록 합니다.
             bindService(serviceIntent, MyService, BIND_AUTO_CREATE)
             true
         } catch (e: Exception) {

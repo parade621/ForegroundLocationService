@@ -23,7 +23,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.parade621.locationforegroundservice.MainActivity
+import com.parade621.locationforegroundservice.BasicActivity
 import com.parade621.locationforegroundservice.R
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -123,7 +123,7 @@ class LocationService : LifecycleService() {
     // 알림 채널은 ID가 동일한 경우, 굳이 서비스를 재시작할 때 알림을 삭제하고 다시 생성하지 않아도 됩니다.
     // 동일한 ID의 알림은 업데이트 되는 방식이기 때문입니다.
     private fun createChannel(): NotificationCompat.Builder {
-        val notificationIntent = Intent(this, MainActivity::class.java).apply {
+        val notificationIntent = Intent(this, BasicActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
