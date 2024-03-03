@@ -12,6 +12,9 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 - Foreground Service를 통한 위치 정보 업데이트
 - 위치 데이터의 처리 및 활용
 
+### 👀 동작 모습
+![foreground_service_location](https://github.com/parade621/Foreground_Service-Location-_Sample/assets/36446270/2e1ad226-456e-40f0-847e-0effd15ec0b6)
+
 ### 👀 기술 스택
 
 - Kotlin
