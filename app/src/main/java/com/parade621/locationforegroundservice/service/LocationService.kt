@@ -18,14 +18,12 @@ import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.parade621.locationforegroundservice.BasicActivity
 import com.parade621.locationforegroundservice.R
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class LocationService : LifecycleService() {
@@ -67,12 +65,10 @@ class LocationService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         if (checkLocationPermissions()) {
-            lifecycleScope.launch {
-                if (!isServiceRunning) {
-                    startForeground(1, createChannel().build())
-                }
-                locationUpdates()
+            if (!isServiceRunning) {
+                startForeground(1, createChannel().build())
             }
+            locationUpdates()
         }
         // START_STICKY, START_NOT_STICKY, START_REDELIVER_INTENT와 같은 반환 값은
         // 서비스가 시스템에 의해 종료된 후 재시작되는 방식을 제어합니다.
@@ -197,8 +193,6 @@ class LocationService : LifecycleService() {
                 accuracy = locationResult.locations[0].accuracy
             }
 
-            Timber.e("확인: $latitude / $longitude")
-
             actionFunction()
         }
     }
@@ -217,6 +211,5 @@ class LocationService : LifecycleService() {
     internal inner class LocalBinder : Binder() {
         fun getService(): LocationService = this@LocationService
     }
-
 }
 

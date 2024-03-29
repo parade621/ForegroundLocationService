@@ -5,7 +5,6 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 코드에 대한 설명은 주석으로 나름 열심히 작성해 두었습니다.<br>
 사족이 붙은 설명은 Tstory 블로그를 통해 확인 가능합니다.(현재 작성 중)
 
-
 ### 👀 주요 기능
 
 - 실시간 위치 추적
@@ -13,7 +12,8 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 - 위치 데이터의 처리 및 활용
 
 ### 👀 동작 모습
-![foreground_service_location](https://github.com/parade621/Foreground_Service-Location-_Sample/assets/36446270/2e1ad226-456e-40f0-847e-0effd15ec0b6)
+
+<img src="https://github.com/parade621/Foreground_Service-Location-_Sample/assets/36446270/2e1ad226-456e-40f0-847e-0effd15ec0b6" width="30%" height="30%">
 
 ### 👀 기술 스택
 
