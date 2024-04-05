@@ -87,11 +87,6 @@ class LocationService : LifecycleService() {
         return localBinder
     }
 
-
-    //    override fun onRebind(intent: Intent?) {
-    //        handleBind()
-    //    }
-
     // 바인드 함수에서 호출되는 커스텀 함수로, Rebound까지 고려하여 별도로 함수로 분리하여 작성하였습니다.
     private fun handleBind() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -147,7 +142,7 @@ class LocationService : LifecycleService() {
             NotificationCompat.Builder(this)
         }
 
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.drawable.baseline_add_location_alt)
             .setContentTitle("Location Service Test")
             .setContentText("Location Tracking is Running")
             .setContentIntent(pendingIntent)
@@ -207,7 +202,13 @@ class LocationService : LifecycleService() {
         }
     }
 
-    //
+    // IBinder를 반환하는 Binder 클래스
+    // 클라이언트와 서비스 사이의 통신을 위한 Binder 클래스입니다.
+    // 클라이언트는 이 Binder를 사용하여 서비스의 메서드를 호출할 수 있습니다.
+    // 왜 internal inner class로 선언했는지 궁금하시다면, 이는 Binder 클래스가 Binder()를 상속받기 때문입니다.
+    // Binder 클래스는 자바에서만 사용할 수 있기 때문에, Kotlin에서는 Binder()를 상속받아 사용할 수 없습니다.
+    // 따라서 Binder 클래스를 내부 클래스로 선언하여 사용하였습니다.
+    // 참고로, Binder 클래스는 android.os 패키지에 존재합니다.
     internal inner class LocalBinder : Binder() {
         fun getService(): LocationService = this@LocationService
     }

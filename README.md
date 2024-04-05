@@ -23,6 +23,8 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 - DataBinding
 - Timber(Logger)
 
+<br/>
+
 ### 👀 구조
 
 앱의 주요 구성 요소는 다음과 같습니다.
@@ -31,6 +33,8 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 - SplashActivity: 앱 시작 시 나타나는 스플래시 화면.
 - BasicActivity: 앱의 메인 화면으로, 사용자 인터페이스를 제공합니다.
 - ServiceModel: 서비스에서 수행될 비즈니스 로직을 정리하는 클래스.
+
+<br/>
 
 ### 👀 앱 동작 순서
 
@@ -49,14 +53,20 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
     - 사용자가 위치 서비스를 종료하는 버튼을 클릭하거나 앱을 종료하면, LocationService는 자동으로 중단됩니다. 이때, 모든 위치 추적 작업이 종료되고, 서비스는
       자원을 해제합니다.
 
+<br/>
+
 ### 👀 사족
 
-- 본 예제는 가장 간단하게 Foreground Service를 설명하려고 만든 예제로, Flow나 Coroutine과 같은 중급 기술의 사용을 지양하였습니다.
+- 본 예제는 가장 간단하게 Foreground Service를 설명하려고 만든 예제로, Flow나 Coroutine과 같은 비동기 처리는 적용하지 않았습니다.
 - 따라서, 현재 예제는 업데이트된 위치 정보를 실시간으로 View에 그리지 않으며, 버튼 클릭을 통해 갱신하는 방식을 선택하였습니다.
 - 실시간 위치 갱신이 필요하다면, 비동기 처리를 반드시 고려해야합니다.
+- 배터리 최적화를 해지하는 코드가 추가되었습니다. Foreground Service를 사용할 때, 배터리 최적화를 해제해야 서비스가 정상적으로 동작하는 경우가 있기 떄문에 추가해 두었습니다.
 
-<br>
+<br/>
+
 더 자세한 위치 정보 서비스 코드를 보고
 싶으시다면 [https://github.com/android/location-samples](https://github.com/android/location-samples) 해당
 링크를 참조 부탁드립니다.
+
+예제에 관련된 질문이 있거나 오류가 있다면 Issue를 남겨주시면 감사하겠습니다.
 
