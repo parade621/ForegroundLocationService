@@ -1,42 +1,64 @@
 # Foreground Service (Location) Sample Code
 
+## 개요
+
 Foreground Service 실습을 위한 예제 코드입니다.<br>
 본 예제 코드는 위치 데이터를 갱신하는 서비스 코드를 다루고 있습니다.<br>
 코드에 대한 설명은 주석으로 나름 열심히 작성해 두었습니다.<br>
-사족이 붙은 설명은 Tstory 블로그를 통해 확인 가능합니다.(현재 작성 중)
+사족이 붙은 설명은 Tstory 블로그를 통해 확인 가능합니다.<br>
+[티스토리 링크](https://parade621.tistory.com/83#comment22530594)
 
-### 👀 주요 기능
+<img src="https://github.com/parade621/Foreground_Service-Location-_Sample/assets/36446270/2e1ad226-456e-40f0-847e-0effd15ec0b6" width="30%" height="30%">
+
+## 목표
 
 - 실시간 위치 추적
 - Foreground Service를 통한 위치 정보 업데이트
 - 위치 데이터의 처리 및 활용
+- 애플리케이션 종료 시, 서비스 종료
 
-### 👀 동작 모습
-
-<img src="https://github.com/parade621/Foreground_Service-Location-_Sample/assets/36446270/2e1ad226-456e-40f0-847e-0effd15ec0b6" width="30%" height="30%">
-
-### 👀 기술 스택
+## 기술 스택
 
 - Kotlin
 - Android SDK
 - Foreground Service API
-- DataBinding
+- viewBinding
 - Timber(Logger)
 
-<br/>
+## 빌드 환경
 
-### 👀 구조
+- Android Studio Hedgehog | 2023.1.1 Patch 1
+  Build #AI-231.9392.1.2311.11255304, built on December 27, 2023
+  Runtime version: 17.0.10+10-b829.27 aarch64
+  VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+- Android Gradle Plugin version: 8.2.1
+- Kotlin version: 1.9.22
+- Java version: 1.8
+
+## 구조
 
 앱의 주요 구성 요소는 다음과 같습니다.
 
-- LocationService: 위치 정보를 실시간으로 추적하는 Foreground Service.
-- SplashActivity: 앱 시작 시 나타나는 스플래시 화면.
-- BasicActivity: 앱의 메인 화면으로, 사용자 인터페이스를 제공합니다.
-- ServiceModel: 서비스에서 수행될 비즈니스 로직을 정리하는 클래스.
+```agsl
+├── LocationServiceSample.kt
+├── SplashActivity.kt
+├── BasicActivity.kt
+└── service
+   ├── LocationService.kt
+   ├── MyService.kt 
+   └── ServiceModel.kt
+```
+
+- LocationServiceSample.kt: Application 클래스로, 앱의 전역 상태를 관리
+- SplashActivity.kt: 앱의 진입점, 스플래시 화면으로, 권한 검사 수행
+- BasicActivity.kt: 앱의 메인 화면으로, 사용자 인터페이스를 제공
+- LocationService.kt: 위치 정보 실시간 추적 Foreground Service
+- MyService.kt: ServiceConnection을 상속해 서비스와 액티비티 간의 통신을 담당하는 싱글톤 객체
+- ServiceModel.kt: 서비스에서 수행될 비즈니스 로직 클래스
 
 <br/>
 
-### 👀 앱 동작 순서
+## 앱 동작 순서
 
 1. 앱 시작
     - 사용자가 앱을 실행하면 SplashActivity가 표시됩니다. 이는 앱의 초기 로딩 화면으로, 필요한 리소스를 로드하는 동안 표시됩니다.
@@ -55,12 +77,13 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 
 <br/>
 
-### 👀 사족
+## 사족
 
 - 본 예제는 가장 간단하게 Foreground Service를 설명하려고 만든 예제로, Flow나 Coroutine과 같은 비동기 처리는 적용하지 않았습니다.
 - 따라서, 현재 예제는 업데이트된 위치 정보를 실시간으로 View에 그리지 않으며, 버튼 클릭을 통해 갱신하는 방식을 선택하였습니다.
 - 실시간 위치 갱신이 필요하다면, 비동기 처리를 반드시 고려해야합니다.
-- 배터리 최적화를 해지하는 코드가 추가되었습니다. Foreground Service를 사용할 때, 배터리 최적화를 해제해야 서비스가 정상적으로 동작하는 경우가 있기 떄문에 추가해 두었습니다.
+- 배터리 최적화를 해지하는 코드가 추가되었습니다. Foreground Service를 사용할 때, 배터리 최적화를 해제해야 서비스가 정상적으로 동작하는 경우가 있기 떄문에 추가해
+  두었습니다.
 
 <br/>
 
@@ -68,5 +91,5 @@ Foreground Service 실습을 위한 예제 코드입니다.<br>
 싶으시다면 [https://github.com/android/location-samples](https://github.com/android/location-samples) 해당
 링크를 참조 부탁드립니다.
 
-예제에 관련된 질문이 있거나 오류가 있다면 Issue를 남겨주시면 감사하겠습니다.
+예제에 관련된 질문이 있거나 오류가 있다면 Issue 혹은 블로그에 댓글로 질문을 남겨주시면 감사하겠습니다.
 
