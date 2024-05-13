@@ -46,18 +46,10 @@ class BasicActivity : AppCompatActivity() {
         // 서비스를 바인드합니다.
         // 서비스가 이미 바인드되어 있다면, 언바인드 후 다시 바인드합니다.
         if (MyService.isBound) {
-            unbindService(MyService)
             MyService.unbindService()
         }
-
         return try {
-            // LocationService에 바인딩하기 위한 Intent를 생성합니다.
-            // 이 Intent는 LocationService 클래스를 명시적으로 지정합니다.
-            val serviceIntent = Intent(applicationContext, LocationService::class.java)
-
-            // 생성한 Intent와 serviceConnection 객체(MyService)를 사용하여 LocationService에 바인드합니다.
-            // BIND_AUTO_CREATE 플래그는 서비스가 아직 실행 중이 아니라면 자동으로 생성하도록 합니다.
-            bindService(serviceIntent, MyService, BIND_AUTO_CREATE)
+            MyService.bindService()
             true
         } catch (e: Exception) {
             false
@@ -70,7 +62,6 @@ class BasicActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (MyService.isBound) {
-            unbindService(MyService)
             MyService.unbindService()
         }
     }
