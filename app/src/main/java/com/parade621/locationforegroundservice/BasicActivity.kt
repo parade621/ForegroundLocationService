@@ -1,10 +1,8 @@
 package com.parade621.locationforegroundservice
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.parade621.locationforegroundservice.databinding.ActivityMainBinding
-import com.parade621.locationforegroundservice.service.LocationService
 import com.parade621.locationforegroundservice.service.MyService
 
 /**
@@ -61,8 +59,12 @@ class BasicActivity : AppCompatActivity() {
     // 백스택의 최하단에 항상 존재하는 액티비티에서만 사용하는 것이 좋습니다.
     override fun onDestroy() {
         super.onDestroy()
-        if (MyService.isBound) {
-            MyService.unbindService()
+        try {
+            if (MyService.isBound) {
+                MyService.unbindService()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
