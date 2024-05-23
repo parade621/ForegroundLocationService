@@ -134,9 +134,9 @@ class SplashActivity : AppCompatActivity() {
         } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
             // 32 까지
             listOf(
+                Manifest.permission.FOREGROUND_SERVICE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.POST_NOTIFICATIONS
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
         } else {
             // 33 이상
